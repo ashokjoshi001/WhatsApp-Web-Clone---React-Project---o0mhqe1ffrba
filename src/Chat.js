@@ -15,7 +15,7 @@ function Chat() {
     const {roomId} = useParams();
     const [roomName, setRoomName] = useState("");
     const [messages, setMassages] = useState([]);
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user }] = useStateValue();
 
 
 
@@ -26,8 +26,8 @@ function Chat() {
           setRoomName(snapshot.data().name)
         ))
 
-        db.collection('rooms').doc(roomId).collection('messages').
-        orderBy('timestamp', 'asc').onSnapshot(snapshot =>(
+        db.collection('rooms').doc(roomId).collection('messages')
+        .orderBy('timestamp', 'asc').onSnapshot(snapshot =>(
           setMassages(snapshot.docs.map(doc => doc.data()))
         ))
       }
@@ -60,8 +60,7 @@ function Chat() {
           <h3>{roomName}</h3>
           <p>Last seen {" "}
             {new Date(
-              messages[messages.length - 1]?.
-              timestamp?.toDate()
+              messages[messages.length - 1]?.timestamp?.toDate()
               ).toUTCString()
             }
           </p>
