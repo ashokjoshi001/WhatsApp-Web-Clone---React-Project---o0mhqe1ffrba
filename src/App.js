@@ -1,8 +1,6 @@
 import './App.css';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
-// import { Switch } from '@mui/material';
-// import { Route } from '@mui/icons-material';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useStateValue } from './StateProvider';
 import Login from './Login';

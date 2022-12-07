@@ -15,7 +15,7 @@ function Chat() {
     const {roomId} = useParams();
     const [roomName, setRoomName] = useState("");
     const [messages, setMassages] = useState([]);
-    const [{ user }] = useStateValue();
+    const [{ user }, dispatch] = useStateValue();
 
 
 
@@ -40,7 +40,7 @@ function Chat() {
 
     const sendMessage = (e) =>{
       e.preventDefault();
-      console.log("you typed >>> ", input);
+      // console.log("you typed >>> ", input);
 
       db.collection('rooms').doc(roomId).collection('messages').add({
         message: input,
