@@ -80,3 +80,7 @@
     padding: 10px;
     color: gray;
 }
+.emoji-picker-react{
+    position: absolute !important;
+    top: -325px;
+}

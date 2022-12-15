@@ -6,7 +6,9 @@ import { useParams } from "react-router-dom"
 import "./Chat.css";
 import db from './firebase';
 import { useStateValue } from './StateProvider';
-import { serverTimestamp } from '@firebase/firestore'
+import { serverTimestamp } from '@firebase/firestore';
+import EmojiPicker from 'emoji-picker-react';
+
 
 function Chat() {
 
@@ -16,7 +18,7 @@ function Chat() {
     const [roomName, setRoomName] = useState("");
     const [messages, setMassages] = useState([]);
     const [{ user }, dispatch] = useStateValue();
-
+    const [openEmojiBox, setOpenEmojiBox] = useState(false);
 
 
 
@@ -48,10 +50,16 @@ function Chat() {
         timestamp: serverTimestamp(),
 
       })
-
-
       setInput("");
+      setOpenEmojiBox(false);
     }
+    const addEmoji = (e) => {
+      let sym = e.unified.split("-");
+      let codesArray = [];
+      sym.forEach((el) => codesArray.push("0x" + el));
+      let emoji = String.fromCodePoint(...codesArray);
+      setInput(input + emoji);
+    };
   return (
     <div className='chat'>
       <div className="chat__header">
@@ -65,12 +73,10 @@ function Chat() {
             }
           </p>
         </div>
+        
         <div className="chat__headerRight">
           <IconButton>
             <SearchOutlined />
-          </IconButton>
-          <IconButton>
-            <AttachFile />
           </IconButton>
           <IconButton>
             <MoreVert/>
@@ -88,8 +94,16 @@ function Chat() {
           </p>
         ))}  
       </div>
+      {
+        openEmojiBox && (<EmojiPicker onEmojiClick={addEmoji}/>)
+      }
       <div className="chat__footer">
-        <InsertEmoticon/>
+        <IconButton>
+          <InsertEmoticon onClick={() => setOpenEmojiBox(!openEmojiBox)}/>
+        </IconButton>
+        <IconButton>
+            <AttachFile />
+        </IconButton>
         <form>
           <input type="text" value={input} 
           onChange={e => setInput(e.target.value)} placeholder='Type a message'/>
